@@ -212,69 +212,69 @@ Kpf_classico=optimal_W/optimal_X;
 %% 19) Representacao em espaco de estados do sistema em malha fechada 
 %   projetado via Algoritmo 3
 
-    % 20.1) Espaco de Estados para Gcdy(s) 
+    % 19.1) Espaco de Estados para Gcdy(s) 
     
     Gcdys_classico=...
         ss(A_x+B_u*Kpf_classico,B_d,C_y+D_y*Kpf_classico,E_y);
 
-    % 20.2) Espaco de Estados para Gcdz(s)  
+    % 19.2) Espaco de Estados para Gcdz(s)  
     
     Gcdzs_classico=...
         ss(A_x+B_u*Kpf_classico,B_d,C_z+D_z*Kpf_classico,E_z);
 
-%% 21) Computar medidas transitorias e tabela para sistema em malha fechada projetado via algoritmo 3 
+%% 20) Computar medidas transitorias e tabela para sistema em malha fechada projetado via algoritmo 3 
 
     Computar_Medidas_Transitorias_Malha_Fechada_via_classico
     
-%% 22) Computar Normas H_2 e H_infinito para sistema projetado via 
+%% 21) Computar Normas H_2 e H_infinito para sistema projetado via 
 %   Algoritmo 3
 
-    %22.1) Norma H_2 do sistema canonico controlavel de Gcdy(s)
+    %21.1) Norma H_2 do sistema canonico controlavel de Gcdy(s)
     
     norma_H2_Gcdys_classico=norm(Gcdys_classico,2);
     
-    %22.2) Norma H_infinito do sistema canonico controlavel de Gcdz(s)
+    %21.2) Norma H_infinito do sistema canonico controlavel de Gcdz(s)
     
     norm_Hinf_Gcdzs_classico=norm(Gcdzs_classico,'inf');
     
-%% 23) Computar Os polos do sistema projetado via Algoritmo 3
+%% 22) Computar Os polos do sistema projetado via Algoritmo 3
 
     Polos_Gcd_classico=cplxpair(pole(Gcdys_classico));
 
-%% 24) Computar respostas de Gcdy(s) ao disturbio impulso unitario
+%% 23) Computar respostas de Gcdy(s) ao disturbio impulso unitario
 
     Computar_yt_ut_resposta_ao_impulso_metodo_livre
     
-%% 25) Executar Algoritmo 7 multietapa
+%% 24) Executar Algoritmo 7 multietapa
 
-    %25.1) Iniciar matriz de retroalimentacao 
+    %24.1) Iniciar matriz de retroalimentacao 
     
     Kpf_parcial=zeros(n_u,n_x);
 
-    %25.2) Entrada Q_p
+    %24.2) Entrada Q_p
     
     Q_p = [1 1;1i -1i];
 
-    %25.3) Obter Matrizes dos Autovalores e Autovetores
+    %24.3) Obter Matrizes dos Autovalores e Autovetores
         
     [Right_Eigenvectors, Eigenvalues, Left_Eigenvectors] = ...
         eig(A_x + B_u * Kpf_parcial);
         
-    %25.4) Encontrar as matrizes para alocacao
+    %24.4) Encontrar as matrizes para alocacao
     [row_poles,col_poles]=find(...
         real(Eigenvalues)<-0.019 & real(Eigenvalues)>-0.021)
     
     Lambda_p = Eigenvalues(row_poles, col_poles);
     L_p = Left_Eigenvectors(1:end, col_poles);    
         
-    %25.5) Computar controle otimo misto D-estavel com alocacao parcial 
+    %24.5) Computar controle otimo misto D-estavel com alocacao parcial 
     Controle_otimo_misto_D_estavel_alocacao_parcial
     
-        %25.6) Iniciar contagem de tempo para otimizacao multietapa via 
+        %24.6) Iniciar contagem de tempo para otimizacao multietapa via 
         %       Algoritmo 7
         tic
     
-        %25.7) Executar Algoritmo 7 Multietapa   
+        %24.7) Executar Algoritmo 7 Multietapa   
         if ~isempty(c_H2) % Se houver otimizacao para norma H2
              if ~isempty(c_Hinf) % Se houver otimizacao para norma Hinf
 
@@ -300,80 +300,80 @@ Kpf_classico=optimal_W/optimal_X;
             end 
         end
 
-        %25.7) Extrair variaveis de decisao para computar K_pf 
+        %24.8) Extrair variaveis de decisao para computar K_pf 
 
         optimal_Tilde_W = value(Tilde_W);
         optimal_Tilde_X = value(Tilde_X);
 
-        %25.8) Computar e Atualizar K_pf
+        %24.9) Computar e Atualizar K_pf
 
         KD_parcial=optimal_Tilde_W*inv(optimal_Tilde_X);
         Kpf_parcial = Kpf_parcial + KD_parcial * (Q_p * L_p') / 2;
 
         
-    % 26) Finalizar tempo de otimizacao multietapa
+    % 25) Finalizar tempo de otimizacao multietapa
     
     tempo_otimizacao_parcial = toc;
     
-%% 27) Representacao em espaco de estados do sistema em malha fechada 
+%% 26) Representacao em espaco de estados do sistema em malha fechada 
 %   projetado via Algoritmo 7 multietapa
 
-    % 27.1) Espaco de estados para Gcdy(s) via algoritmo 7 multietapa
+    % 26.1) Espaco de estados para Gcdy(s) via algoritmo 7 multietapa
     
     Gcdys_parcial=...
         ss(A_x+B_u*Kpf_parcial,B_d,C_y+D_y*Kpf_parcial,E_y);
 
-    % 27.2) Espaco de estados para Gcdz(s) via algoritmo 7 multietapa
+    % 26.2) Espaco de estados para Gcdz(s) via algoritmo 7 multietapa
     
     Gcdzs_parcial=...
         ss(A_x+B_u*Kpf_parcial,B_d,C_z+D_z*Kpf_parcial,E_z); 
 
-%% 28) Computar Normas H_2 e H_infinito para sistema projetado via 
+%% 27) Computar Normas H_2 e H_infinito para sistema projetado via 
 %   Algoritmo 7
 
-    %28.1) Norma H_2 do sistema canonico controlavel de Gcdy(s)
+    %27.1) Norma H_2 do sistema canonico controlavel de Gcdy(s)
     
     norma_H2_Gcdys_parcial=norm(Gcdys_parcial,2);
     
-    %28.2) Norma H_infinito do sistema canonico controlavel de Gcdz(s)
+    %27.2) Norma H_infinito do sistema canonico controlavel de Gcdz(s)
     
     norma_Hinf_Gcdzs_parcial=norm(Gcdzs_parcial,'inf');
     
-%% 29) Computar Os polos do sistema via teorema 7
+%% 28) Computar Os polos do sistema via teorema 7
 
     Polos_Gcd_Parcial=cplxpair(pole(Gcdys_parcial));
     
-%% 30) Obter Coeficientes de Amortecimento, Frequencia Natural e Medidas 
+%% 29) Obter Coeficientes de Amortecimento, Frequencia Natural e Medidas 
 %   transitorias associadas
 
 [wn_theo7,zeta_theo7,p_theo7]=damp(Gcdys_parcial);
 cont=1;
 
-%% 31) Computar medidas transitorias do sistema com retroalimentação projetada via algoritmo 5
+%% 30) Computar medidas transitorias do sistema com retroalimentação projetada via algoritmo 5
 
 Computar_Medidas_Transitorias_Malha_Fechada_via_parcial
     
-%% 32) Computar respostas de Gcdy(s) ao disturbio impulso unitario
+%% 31) Computar respostas de Gcdy(s) ao disturbio impulso unitario
 
     Computar_yt_ut_resposta_ao_impulso_metodo_parcial
 
-%% 33) Computar respostas de Gcdy(s) ao disturbio degrau unitario
+%% 32) Computar respostas de Gcdy(s) ao disturbio degrau unitario
 
-    %33.1) Sinal y(t) gerado.
+    %32.1) Sinal y(t) gerado.
     
     [y_Gcdys_step_parcial,t_Gcdys_step_parcial,x_Gcdys_step_parcial]=...
         step(Gcdys_parcial,0:0.01:14);
     
-    %33.2) Sinal u(t) gerado.
+    %32.2) Sinal u(t) gerado.
     
     u_Gcdys_step_parcial(1:size(x_Gcdys_step_parcial,1),1:n_u,1)=...
         x_Gcdys_step_parcial(:,:,1)*Kpf_parcial';
     
-%% 34) Computar Tabelas
+%% 33) Computar Tabelas
 
     Computar_Tabelas
           
-%% 35) Construir graficos de Bode para sistema LCTI-MIMO em malha aberta e 
+%% 34) Construir graficos de Bode para sistema LCTI-MIMO em malha aberta e 
 %   fechada.
 
     figure 
@@ -398,7 +398,7 @@ Computar_Medidas_Transitorias_Malha_Fechada_via_parcial
 
     sgtitle('Valores Singulares G_d_z(s)')
     
-%% 36) Construir graficosde resposta transitoria de g(t)^2 ao disturbio  
+%% 35) Construir graficosde resposta transitoria de g(t)^2 ao disturbio  
 %   impulso unitario do sistema LCTI-MIMO em malha aberta e fechada.
 
     figure
@@ -431,7 +431,7 @@ Computar_Medidas_Transitorias_Malha_Fechada_via_parcial
     
     sgtitle('Resposta y(t) ao impulso')
     
-%% 37) Construir grafico de u(t) sistema LCTI-MIMO em malha aberta e 
+%% 36) Construir grafico de u(t) sistema LCTI-MIMO em malha aberta e 
 %   fechada em resposta a disturbio degrau unitario.     
     
     figure
@@ -458,7 +458,7 @@ Computar_Medidas_Transitorias_Malha_Fechada_via_parcial
     
     sgtitle('u(t) em resposta ao impulso')
 
-%% 38) Graficos da resposta ao disturbio impulso da fracoes parciais e 
+%% 37) Graficos da resposta ao disturbio impulso da fracoes parciais e 
 %      funcoes de transferencia.
 
     figure
@@ -492,14 +492,14 @@ Computar_Medidas_Transitorias_Malha_Fechada_via_parcial
     legend('GA(s)','GNA(s)','Gody(s)','Godz(s)','FontSize',10)
     set(findall(gcf, 'Type', 'line'), 'LineWidth', 3);
     
-%% 39) Grafico para Localizacao dos Polos
+%% 38) Grafico para Localizacao dos Polos
 
-    %39.1) Autovalores (Polos) a serem inseridos no grafico
+    %38.1) Autovalores (Polos) a serem inseridos no grafico
     autovalores=[ Polos_Malha_Aberta',...
                   Polos_Gcd_classico',...  
                   Polos_Gcd_Parcial'];
 
-    %39.2) Computando curvas de fronteira das regioes    
+    %38.2) Computando curvas de fronteira das regioes    
     [  x_horizontal_strip,y_inferior_horizontal_strip,...
         y_superior_horizontal_strip,...
         x_sector,y_inferior_sector,y_superior_sector,...
@@ -509,7 +509,7 @@ Computar_Medidas_Transitorias_Malha_Fechada_via_parcial
         x_betav,y_betav ] = linhas_D_regioes(...
         autovalores,alpha_v,beta_v,theta_s,r_d,q_d,w_H,e_P); 
 
-    %39.3) Grafico            
+    %38.3) Grafico            
     figure
     subplot(121)
     plot(real(Polos_Malha_Aberta),imag(Polos_Malha_Aberta),'ok',...
