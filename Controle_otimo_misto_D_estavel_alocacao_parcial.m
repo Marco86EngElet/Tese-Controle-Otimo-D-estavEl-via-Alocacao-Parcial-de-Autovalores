@@ -1,16 +1,16 @@
-%29.5) Obter a Matriz de Controlabilidade Parcial (Matriz de 
+%A) Obter a Matriz de Controlabilidade Parcial (Matriz de 
     %   Controlabilidade do SREAPE) 
 
     controlability_matrix = ctrb(Lambda_p, (Q_p * L_p') * B_u / 2);
 
-    %29.6) Calcular numeros de estados nao controlaveis do SREAPE
+    %B) Calcular numeros de estados nao controlaveis do SREAPE
 
     number_of_non_controlable_states = 2-rank(controlability_matrix);
 
-    %29.7) Tentar executar o Algoritmo 7
+    %C) Tentar executar o Algoritmo 7
     if number_of_non_controlable_states == 0 
 
-        %29.8) Computar matrizes onstante oriundas das 
+        %D) Computar matrizes onstante oriundas das 
         %   transformacoes de similaridades
 
         Tilde_Lambda_p = Q_p*Lambda_p*Q_p'/2;
@@ -34,17 +34,17 @@
 
         end
 
-        %29.9) Construir variaveis de decisao
+        %E) Construir variaveis de decisao
 
         Tilde_X  = sdpvar(n_ola,n_ola,'symmetric');
         Tilde_W  = sdpvar(n_u,n_ola,'full');
 
-        %29.10) Iniciar LMIs para Algoritmo 7 para alocar o 
+        %F) Iniciar LMIs para Algoritmo 7 para alocar o 
         %   j-enesimo par de polos complexos
 
         set_LMIs_parcial = Tilde_X>=eps*eye(n_ola);
 
-        %29.11) Construir LMI para "Re(s)<=-alpha_v" (Regiao Faixa
+        %G) Construir LMI para "Re(s)<=-alpha_v" (Regiao Faixa
         %   Vertical)
         if ~isempty(alpha_v)
 
@@ -55,7 +55,7 @@
                 Tilde_Bu*Tilde_W+Tilde_W'*Tilde_Bu'<=-eps*eye(n_ola)  ];
         end
 
-        %29.12) Construir LMI para "Re(s)>=-beta_v" (Regiao Faixa
+        %H) Construir LMI para "Re(s)>=-beta_v" (Regiao Faixa
         %   Vertical)
         if ~isempty(beta_v)
 
@@ -66,7 +66,7 @@
                 Tilde_Bu*Tilde_W-Tilde_W'*Tilde_Bu'<=-eps*eye(n_ola) ];
         end
 
-        %29.13) Construir LMI para "abs(s)<=-r_d" (Regiao Disco)
+        %I) Construir LMI para "abs(s)<=-r_d" (Regiao Disco)
         if ~isempty(r_d)
 
             Tilde_Ax_Dqr = Tilde_Lambda_p+q_d*eye(n_ola); 
@@ -79,7 +79,7 @@
                   <=-eps*eye(2*n_ola)    ];
         end
 
-        %29.14) Construir LMI para "-theta_s<=angle(s)<=theta_s"
+        %J) Construir LMI para "-theta_s<=angle(s)<=theta_s"
         % (Regiao Setor)
         if ~isempty(theta_s)
 
@@ -103,7 +103,7 @@
                 ]<=-eps*eye(2*n_ola) ];
         end
 
-        %29.15) Construir LMI para "-w_H<=imag(s)<=w_H" (Regiao 
+        %K) Construir LMI para "-w_H<=imag(s)<=w_H" (Regiao 
         %   Faixa Horizontal)
         if ~isempty(w_H)
             set_LMIs_parcial =[ set_LMIs_parcial,...
@@ -116,7 +116,7 @@
                 ]<=-eps*eye(2*n_ola) ];
         end 
 
-        %29.16) Construir LMI para Control otimo H_2 
+        %M) Construir LMI para Control otimo H_2 
         if ~isempty(c_H2)
 
             Z = sdpvar(n_y,n_y,'symmetric');
@@ -139,7 +139,7 @@
                     -eps*eye(n_y+n_ola,n_y+n_ola) ]        
         end
 
-        %29.17) Construir LMI para Controle otimo H_infinito
+        %N) Construir LMI para Controle otimo H_infinito
         if ~isempty(c_Hinf)
 
             gamma = sdpvar(1,1,'symmetric');   
