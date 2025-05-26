@@ -1,4 +1,4 @@
-%28.1) Sinal (y(t))^2 gerado.
+    %A) Sinal (y(t))^2 gerado.
     
     [y_Gcdys_impulse_classico,...
         t_Gcdys_impulse_classico,...
@@ -8,7 +8,7 @@
     y2_Gcdys_impulse_classico=...
         y_Gcdys_impulse_classico.*y_Gcdys_impulse_classico;
     
-    %27.2) Sinal u(t) gerado.
+    %B) Sinal u(t) gerado.
     
     u_Gcdys_impulse_classico(1:size(x_Gcdys_impulse_classico,1),1:n_u,1)=...
         x_Gcdys_impulse_classico(:,:,1)*Kpf_classico';
