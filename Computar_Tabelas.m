@@ -1,4 +1,4 @@
-%% 35) Tabela para Mostrar especificacoes transitorias e parametros das 
+%% A) Tabela para Mostrar especificacoes transitorias e parametros das 
 %       regioes transitorias
 
 disp('Limites das Medidas Transitorias')
@@ -49,7 +49,7 @@ disp('Parametros escolhidos para D-estabilidade')
     e_P,
 disp('----------------------------------')    
     
-    %% 35) Tabela para Comparar Polos do sistema em malha aberta e fechada 
+    %% B) Tabela para Comparar Polos do sistema em malha aberta e fechada 
 %   no plano das variaveis complexas.
     
     Table_Poles=table(Polos_Malha_Aberta,...
@@ -57,46 +57,46 @@ disp('----------------------------------')
                Polos_Gcd_Parcial);
     Table_Poles,
     
-%% 36) Mostrar Tabelas dos Polos e Medidas Transitorias Associadas
+%% C) Mostrar Tabelas dos Polos e Medidas Transitorias Associadas
 
-    % 36.1)Malha Aberta
+    % C.1)Malha Aberta
     
     Tabela_Medidas_Transitoria_Malha_Aberta,
     
-    % 36.2) Projeto de alocacao otima via metodo classico
+    % C.2) Projeto de alocacao otima via metodo classico
     Tabela_Medidas_Transitoria_classico,
 
-    % 36.3) Projeto de alocacao otima via metodo parcial otimo multietapa
+    % C.3) Projeto de alocacao otima via metodo parcial otimo multietapa
     Tabela_Medidas_Transitoria_Parcial,
     
-%% 37) Construir tabelas para comparar normas
+%% D) Construir tabelas para comparar normas
 
-    %37.1) Construir coluna para normas H_2
+    %D.1) Construir coluna para normas H_2
     norma_H2=...
         [norma_H2_Godys;norma_H2_Gcdys_classico;norma_H2_Gcdys_parcial];
     
-    %37.2) Construir coluna para discrepancia das normas H_2 em relacao a norma
+    %D.2) Construir coluna para discrepancia das normas H_2 em relacao a norma
     %   H_2 do sistema em malha aberta
     discrepancia_norma_H2_percentual=norma_H2-norma_H2_Godys;
     
     discrepancia_norma_H2_percentual=...
         100*discrepancia_norma_H2_percentual/norma_H2_Godys;
     
-    %37.3) Construir coluna para normas H_infinito
+    %D.3) Construir coluna para normas H_infinito
     norma_Hinf=...
         [norma_Hinf_Godzs;norm_Hinf_Gcdzs_classico;norma_Hinf_Gcdzs_parcial];
     
-    %37.4)Construir coluna para discrepancia das normas H_infinito em relacao 
+    %D.4)Construir coluna para discrepancia das normas H_infinito em relacao 
     %   a norma H_infinito do sistema em malha aberta
     discrepancia_norma_Hinf_percentual=norma_Hinf-norma_Hinf_Godzs;
     
     discrepancia_norma_Hinf_percentual=...
         100*discrepancia_norma_Hinf_percentual/norma_Hinf_Godzs;
     
-    %37.5) Construir coluna para especificar projetos de controle
+    %D.5) Construir coluna para especificar projetos de controle
     Projeto=["Malha Aberta";"Classico";"Multietapa parcial"];
     
-    %37.6) Tempo de otimizacao de cada projeto
+    %D.6) Tempo de otimizacao de cada projeto
     Tempo_otimizacao=...
         [NaN('single');tempo_otimizacao_classico;tempo_otimizacao_parcial];
   
