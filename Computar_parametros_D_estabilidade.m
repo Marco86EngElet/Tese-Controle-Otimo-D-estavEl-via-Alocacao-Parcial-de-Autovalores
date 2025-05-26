@@ -1,9 +1,9 @@
-%4.1) "q_d" e "e_P"
+    %A) "q_d" e "e_P"
     
     q_d=0;
     e_P=[];
 
-    %4.2) "w_H" via equacoes:
+    %B) "w_H" via equacoes:
     
     %; %equacao (3.58) 
     if ~isempty(Tpmin)
@@ -12,7 +12,7 @@
         w_H=[];
     end
     
-    %4.3) "theta_s" via equacoes:
+    %C) "theta_s" via equacoes:
     
     if ~isempty(Mosmax)
         theta_s=atan( pi/log( Mosmax^( -1 ) ) ); % equacao (3.42)
@@ -20,7 +20,7 @@
         theta_s=[];
     end
     
-    %4.4) "r_d" via equacoes:
+    %D) "r_d" via equacoes:
     if ~isempty(theta_s)
         if ~isempty(Trmin)
             rd1=( 1.1 + 0.125*cos( theta_s ) + 0.495*cos( theta_s )^2)/Trmin; %equacao (3.47)
@@ -38,7 +38,7 @@
     end
     r_d=min([rd1,rd2]);
     
-    %4.5) "beta_v" via equacoes:
+    %E) "beta_v" via equacoes:
     
     if ~isempty(Trmin)
         bv1=2.2/Trmin; %equacao (3.20)
@@ -53,7 +53,7 @@
     end
     beta_v=min([bv1,bv2]);
 
-    %4.6) "alpha_v" via equacoes:
+    %F) "alpha_v" via equacoes:
     
     %av1=2.2/Trmax; %equacaao (3.20)
     if ~isempty(Trmax)
