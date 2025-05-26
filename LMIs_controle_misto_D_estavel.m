@@ -1,11 +1,11 @@
-%% 16) Criar conjunto de restricoes para LMIs de D-stability com alocacao
+%% A) Criar conjunto de restricoes para LMIs de D-stability com alocacao
 %    livre
 
-    %16.1) Matriz "X" definida positiva numericamente (eps~=0)
+    %A.1) Matriz "X" definida positiva numericamente (eps~=0)
 
     set_LMIs_classico = X>=eps*eye(n_x);
 
-    %16.2) LMI para "Re(s)<=-alpha_v" (Regiao Faixa Vertical)
+    %A.2) LMI para "Re(s)<=-alpha_v" (Regiao Faixa Vertical)
     
     if ~isempty(alpha_v)
         Ax_Valpha = A_x+alpha_v*eye(n_x);
@@ -14,7 +14,7 @@
                  B_u*W+W'*B_u'<=-eps*eye(n_x)  ];
     end
 
-    %16.3) LMI para "Re(s)=>-beta_v" (Regiao Faixa Vertical)
+    %A.3) LMI para "Re(s)=>-beta_v" (Regiao Faixa Vertical)
     
     if ~isempty(beta_v)
         Ax_Vbeta = -A_x-beta_v*eye(n_x);
@@ -23,7 +23,7 @@
                  B_u*W-W'*B_u'<=-eps*eye(n_x) ];
     end
 
-    %16.4) LMI para "ABS(s)<=r_d" (Regiao Disco com centro na Origem)
+    %A.4) LMI para "ABS(s)<=r_d" (Regiao Disco com centro na Origem)
     
     if ~isempty(r_d)
         Ax_Dqr = A_x+q_d*eye(n_x); 
@@ -33,7 +33,7 @@
                   <=-eps*eye(2*n_x)    ];
     end
 
-    %16.5) LMI para "-w_H<=Imag(s)<=w_H" (Regiao Faixa Horizontal)
+    %A.5) LMI para "-w_H<=Imag(s)<=w_H" (Regiao Faixa Horizontal)
     
     if ~isempty(w_H)
         set_LMIs_classico =[ set_LMIs_classico,...
@@ -46,7 +46,7 @@
                 ]<=-eps*eye(2*n_x) ];
     end
 
-    %16.6) LMI para "-theta_s<=angle(s)<=theta_s" (Regiao Setor)
+    %A.6) LMI para "-theta_s<=angle(s)<=theta_s" (Regiao Setor)
     
     if ~isempty(theta_s)
         Ax_sin = A_x*sin(theta_s);
@@ -66,9 +66,9 @@
                 ]<=-eps*eye(2*n_x) ];
     end
 
-    %16.7) LMI para Regiao Parabola Estabbilidade
+    %A.7) LMI para Regiao Parabola Estabbilidade
     
-    %% 17) LMI para Controle Claassico H_2 
+    %% B) LMI para Controle Claassico H_2 
 
 
 if ~isempty(c_H2)
@@ -87,7 +87,7 @@ if ~isempty(c_H2)
             -eps*eye(n_y+n_x,n_y+n_x) ];        
 end
 
-%% 18) LMIs para Controle Classico H_infinito 
+%% C) LMIs para Controle Classico H_infinito 
 
 if ~isempty(c_Hinf)
 
